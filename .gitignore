@@ -1,3 +1,6 @@
+# ignores for Rust files
+target/*
+
 # Logs
 logs
 *.log

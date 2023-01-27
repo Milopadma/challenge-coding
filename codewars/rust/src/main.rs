@@ -39,6 +39,36 @@ mod count_by {
     }
 }
 
+mod rep_max_calc {
+    pub fn calculate_1_rm(w: i32, r: i32) -> i32 {
+        match r {
+            0 => {
+                return 0;
+            }
+            1 => {
+                return w;
+            }
+            _ => test_each_formulas(w, r),
+        }
+    }
+    fn test_each_formulas(w: i32, r: i32) -> i32 {
+        // array of f64
+        let mut array: [f64; 3] = [0.0, 0.0, 0.0];
+        let val_formula_1: f64 = (w * (1 + r / 30)).into(); // epley
+        let val_formula_2: f64 = (f64::from(100) * f64::from(w)) / (101.3 - 2.67123 * f64::from(r)); // mcglothin
+        let val_formula_3: f64 = (w * r.pow(0.1 as u32)).into(); // lombardi
+        array[0] = val_formula_1;
+        array[1] = val_formula_2;
+        array[2] = val_formula_3;
+        println!("{:?}", array);
+        return array
+            .iter()
+            .map(|&x| x as i32)
+            .max()
+            .unwrap();
+    }
+}
+
 fn main() {
     // mod 1 test case
     let games = vec![
@@ -63,4 +93,11 @@ fn main() {
     let x = 2;
     let n = 5;
     println!("{:?}", count_by::count_by(x, n));
+
+    // mod 4 test case
+    println!("{}", rep_max_calc::calculate_1_rm(135, 20)); //282
+    println!("{}", rep_max_calc::calculate_1_rm(200, 8)); //253
+    println!("{}", rep_max_calc::calculate_1_rm(270, 2)); //289
+    println!("{}", rep_max_calc::calculate_1_rm(360, 1)); //360
+    println!("{}", rep_max_calc::calculate_1_rm(400, 0)); //0
 }

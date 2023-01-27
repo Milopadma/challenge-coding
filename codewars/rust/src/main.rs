@@ -29,6 +29,16 @@ mod convert_from_String {
     }
 }
 
+mod count_by {
+    pub fn count_by(x: u32, n: u32) -> Vec<u32> {
+        let mut result: Vec<u32> = Vec::new();
+        for i in 1..=n {
+            result.push(x * i);
+        }
+        return result;
+    }
+}
+
 fn main() {
     // mod 1 test case
     let games = vec![
@@ -48,4 +58,9 @@ fn main() {
     // mod 2 test case
     let str = "123";
     println!("{}", convert_from_String::convert_from_string(str));
+
+    // mod 3 test case
+    let x = 2;
+    let n = 5;
+    println!("{:?}", count_by::count_by(x, n));
 }

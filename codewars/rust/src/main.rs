@@ -68,6 +68,28 @@ mod rep_max_calc {
     }
 }
 
+mod threes_fives {
+    pub fn solution(num: i32) -> i32 {
+        let mut sum = 0;
+        for i in 1..num {
+            match i % 3 {
+                0 => {
+                    sum += i;
+                }
+                _ => {
+                    match i % 5 {
+                        0 => {
+                            sum += i;
+                        }
+                        _ => {}
+                    }
+                }
+            }
+        }
+        return sum;
+    }
+}
+
 fn main() {
     // mod 1 test case
     // let games = vec![

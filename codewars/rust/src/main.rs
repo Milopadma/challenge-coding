@@ -21,7 +21,16 @@ mod team_points {
     }
 }
 
+mod convert_from_String {
+    pub fn convert_from_string(str: &str) -> i32 {
+        //parse to i32
+        let num = str.parse::<i32>().unwrap();
+        return num;
+    }
+}
+
 fn main() {
+    // mod 1 test case
     let games = vec![
         "3:1".to_string(),
         "2:2".to_string(),
@@ -35,4 +44,8 @@ fn main() {
         "1:2".to_string()
     ];
     println!("{}", team_points::points(&games));
+
+    // mod 2 test case
+    let str = "123";
+    println!("{}", convert_from_String::convert_from_string(str));
 }

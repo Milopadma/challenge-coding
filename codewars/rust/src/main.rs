@@ -88,6 +88,14 @@ mod threes_fives {
         }
         return sum;
     }
+
+    // a better solution i found on codewars
+    pub fn solution_better(num: i32) -> i32 {
+        (1..num)
+            .into_iter()
+            .filter(|&n| (n % 3 == 0 || n % 5 == 0))
+            .sum()
+    }
 }
 
 fn main() {

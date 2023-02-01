@@ -16,10 +16,3 @@ export function nthFibo(n: number): number {
     }
   }
 }
-
-// console log tests
-console.log(nthFibo(1)); // 0
-console.log(nthFibo(2)); // 1
-console.log(nthFibo(3)); // 1
-console.log(nthFibo(4)); // 2
-console.log(nthFibo(5)); // 3

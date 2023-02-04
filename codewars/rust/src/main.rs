@@ -109,6 +109,17 @@ mod move_zeroes {
 
         return new_nums;
     }
+
+    // functionally the same as above but is a bit more concise for functional programming enthusiasts
+    use std::iter;
+    fn move_zeros(arr: &[u8]) -> Vec<u8> {
+        arr.iter()
+            .cloned()
+            .filter(|&x| x != 0)
+            .chain(iter::repeat(0))
+            .take(arr.len())
+            .collect()
+    }
 }
 
 fn main() {

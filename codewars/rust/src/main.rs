@@ -122,6 +122,47 @@ mod move_zeroes {
     }
 }
 
+mod pyramid_slide {
+    // 4 kyu
+    fn longest_slide_down(pyramid: &[Vec<u16>]) -> u16 {
+        let mut pyramid = pyramid.to_vec(); // turns to vector
+        for i in (0..pyramid.len() - 1).rev() {
+            // why -1? because without it we would be out of bounds
+            // since we are doing i + 1 comparisons
+            // take the length of the pyramid and subtract 1 to get the last index
+            // and then iterate backwards
+            for j in 0..pyramid[i].len() {
+                // at the base of the pyramid array,
+                // find the max of the two values and add it to the current value
+                pyramid[i][j] += pyramid[i + 1][j].max(pyramid[i + 1][j + 1]);
+            }
+        }
+        return pyramid[0][0];
+    }
+
+    pub fn run() {
+        let pyramid = vec![vec![3], vec![7, 4], vec![2, 4, 6], vec![8, 5, 9, 3]];
+        println!("{}", longest_slide_down(&pyramid));
+    }
+
+    // solution taken from pmengelbert on codewars
+    // appeases to the functional programming style
+    use std::cmp::max;
+    #[allow(dead_code)]
+    fn longest_slide_down_func(pyramid: &[Vec<u16>]) -> u16 {
+        pyramid
+            .iter()
+            .rev()
+            .skip(1)
+            .fold(pyramid[pyramid.len() - 1].to_vec(), |acc, v| {
+                v.iter()
+                    .enumerate()
+                    .map(|(i, n)| n + max(acc[i], acc[i + 1]))
+                    .collect::<Vec<u16>>()
+            })[0]
+    }
+}
+
 fn main() {
     // mod 1 test case
     // let games = vec![
@@ -161,4 +202,7 @@ fn main() {
     let mut nums = vec![0, 1, 0, 3, 12];
     move_zeroes::move_zeroes(&mut nums);
     println!("{:?}", move_zeroes::move_zeroes(&mut nums));
+
+    // mod 7 test case
+    pyramid_slide::run();
 }

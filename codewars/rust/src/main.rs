@@ -135,10 +135,16 @@ mod pyramid_slide {
                 // at the base of the pyramid array,
                 // find the max of the two values and add it to the current value
                 pyramid[i][j] += pyramid[i + 1][j].max(pyramid[i + 1][j + 1]);
+                dbg!(&pyramid);
             }
         }
         return pyramid[0][0];
     }
+
+    // this way, the iteration walks through the pyramid from the bottom up and 
+    // progressively adds the max of the two values to the current value it is at
+    // which basically propagates the max value up the pyramid
+    // whilst also keeping the rule of only being able to check the near values
 
     pub fn run() {
         let pyramid = vec![vec![3], vec![7, 4], vec![2, 4, 6], vec![8, 5, 9, 3]];

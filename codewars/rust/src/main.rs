@@ -55,16 +55,12 @@ mod rep_max_calc {
         // array of f64
         let mut array: [f64; 3] = [0_f64; 3];
         array[0] = ((w as f64) * (1_f64 + (r as f64) / 30_f64)).round(); // epley
-        // array[0] = (w as f64) * f64::from(r).powf(0.1_f64);
+                                                                         // array[0] = (w as f64) * f64::from(r).powf(0.1_f64);
         array[1] = ((f64::from(100) * f64::from(w)) / (101.3 - 2.67123 * f64::from(r))).ceil(); // mcglothin
         array[2] = (f64::from(w) * ((r as f64).powf(0.1) as f64)).round(); // lombardi
         println!("WEIGHT: {:}, REPS: {:?}: {:?}", w, r, array);
 
-        return array
-            .iter()
-            .map(|&x| x as i32)
-            .max()
-            .unwrap();
+        return array.iter().map(|&x| x as i32).max().unwrap();
     }
 }
 
@@ -76,14 +72,12 @@ mod threes_fives {
                 0 => {
                     sum += i;
                 }
-                _ => {
-                    match i % 5 {
-                        0 => {
-                            sum += i;
-                        }
-                        _ => {}
+                _ => match i % 5 {
+                    0 => {
+                        sum += i;
                     }
-                }
+                    _ => {}
+                },
             }
         }
         return sum;
@@ -95,6 +89,25 @@ mod threes_fives {
             .into_iter()
             .filter(|&n| (n % 3 == 0 || n % 5 == 0))
             .sum()
+    }
+}
+
+mod move_zeroes {
+    pub fn move_zeroes(nums: &[u8]) -> Vec<u8> {
+        let mut i = 0;
+        let mut j = 0;
+        let mut new_nums = nums.clone().to_vec();
+        while i < nums.len() {
+            if nums[i] != 0 as u8 {
+                new_nums.swap(i, j); // swap the values if the current value is not 0
+                j += 1;
+                // eventually all the non-zero values will be at the beginning of the array
+                dbg!(&new_nums);
+            }
+            i += 1;
+        }
+
+        return new_nums;
     }
 }
 
@@ -127,6 +140,14 @@ fn main() {
     println!("{}", rep_max_calc::calculate_1_rm(135, 20)); // 282
     println!("{}", rep_max_calc::calculate_1_rm(200, 8)); // 253
     println!("{}", rep_max_calc::calculate_1_rm(270, 2)); // 289
-    // println!("{}", rep_max_calc::calculate_1_rm(360, 1)); // 360
-    // println!("{}", rep_max_calc::calculate_1_rm(400, 0)); // 0
+                                                          // println!("{}", rep_max_calc::calculate_1_rm(360, 1)); // 360
+                                                          // println!("{}", rep_max_calc::calculate_1_rm(400, 0)); // 0
+
+    // mod 5 test case
+    // println!("{}", threes_fives::solution(10)); // 23
+
+    // mod 6 test case
+    let mut nums = vec![0, 1, 0, 3, 12];
+    move_zeroes::move_zeroes(&mut nums);
+    println!("{:?}", move_zeroes::move_zeroes(&mut nums));
 }

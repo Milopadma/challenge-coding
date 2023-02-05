@@ -141,7 +141,7 @@ mod pyramid_slide {
         return pyramid[0][0];
     }
 
-    // this way, the iteration walks through the pyramid from the bottom up and 
+    // this way, the iteration walks through the pyramid from the bottom up and
     // progressively adds the max of the two values to the current value it is at
     // which basically propagates the max value up the pyramid
     // whilst also keeping the rule of only being able to check the near values
@@ -166,6 +166,29 @@ mod pyramid_slide {
                     .map(|(i, n)| n + max(acc[i], acc[i + 1]))
                     .collect::<Vec<u16>>()
             })[0]
+    }
+}
+
+mod who_likes_it {
+    // 6 kyu
+    pub fn likes(names: &[&str]) -> String {
+        match names.len() {
+            0 => "no one likes this".to_string(),
+            1 => format!("{} likes this", names[0]),
+            2 => format!("{} and {} like this", names[0], names[1]),
+            3 => format!("{}, {} and {} like this", names[0], names[1], names[2]),
+            _ => format!(
+                "{}, {} and {} others like this",
+                names[0],
+                names[1],
+                names.len() - 2
+            ),
+        }
+    }
+
+    pub fn run() {
+        let names = vec!["Peter", "Jacob", "Alex", "Max", "John", "Mark"];
+        println!("{}", likes(&names));
     }
 }
 
@@ -211,4 +234,7 @@ fn main() {
 
     // mod 7 test case
     pyramid_slide::run();
+
+    // mod 8 test case
+    who_likes_it::run();
 }

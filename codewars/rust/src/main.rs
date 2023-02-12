@@ -192,6 +192,40 @@ mod who_likes_it {
     }
 }
 
+mod ten_minute_walk {
+    fn is_valid_walk(walk: &[char]) -> bool {
+        // array to store the coords
+        let mut coords = vec![0, 0];
+
+        // early return
+        if walk.len() != 10 {
+            return false;
+        }
+
+        for char in walk {
+            match char {
+                'n' => coords[1] += 1,
+                's' => coords[1] -= 1,
+                'e' => coords[0] += 1,
+                'w' => coords[0] -= 1,
+                _ => (),
+            };
+
+            println!("{:?}", coords);
+        }
+
+        if coords[0] == 0 && coords[1] == 0 {
+            true
+        } else {
+            false
+        }
+    }
+
+    pub fn test() {
+        let walk = ['n', 's', 'n', 's', 'n', 's', 'n', 's', 'n', 's'];
+        println!("{}", is_valid_walk(&walk));
+    }
+}
 
 fn main() {
     // mod 1 test case
@@ -238,4 +272,7 @@ fn main() {
 
     // mod 8 test case
     who_likes_it::run();
+
+    // mod 9 test case
+    ten_minute_walk::test();
 }

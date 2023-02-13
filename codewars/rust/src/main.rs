@@ -227,6 +227,17 @@ mod ten_minute_walk {
     }
 }
 
+mod rgb_to_hex {
+    pub fn rgb(r: i32, g: i32, b: i32) -> String {
+        format!(
+            "{:02X}{:02X}{:02X}",
+            r.max(0).min(255),
+            g.max(0).min(255),
+            b.max(0).min(255)
+        )
+    }
+}
+
 fn main() {
     // mod 1 test case
     // let games = vec![
@@ -275,4 +286,8 @@ fn main() {
 
     // mod 9 test case
     ten_minute_walk::test();
+
+    // mod 10 test case
+    println!("{}", rgb_to_hex::rgb(0, 255, 0)); // 000000
+    println!("{}", rgb_to_hex::rgb(0, 0, -20)); // 000000
 }

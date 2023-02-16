@@ -238,6 +238,46 @@ mod rgb_to_hex {
     }
 }
 
+mod factorials {
+    fn factorial(n: u64) -> u64 {
+        if n == 0 {
+            return 1;
+        }
+        // recursion call to the function itself until n == 0
+        // then it will return 1
+        return n * factorial(n - 1);
+    }
+
+    // same as above but using a for loop
+    fn looping_factorial(n: u64) -> u64 {
+        let mut result = 1;
+        for i in 1..=n {
+            result *= i;
+        }
+        return result;
+    }
+
+    // to find the trailing zeros of a factorial
+    fn trailing_zeros(n: u64) -> u64 {
+        let mut result = 0;
+        let mut n = n;
+        // while n is greater than 0
+        while n > 0 {
+            n /= 5; // divide n by 5
+            result += n; // add n to result
+                         // repeats until n is below 0
+        }
+        return result;
+    }
+
+    pub fn run() {
+        println!("{}", factorial(6));
+        println!("{}", looping_factorial(6));
+        println!("{}", trailing_zeros(6));
+        println!("{}", trailing_zeros(1000));
+    }
+}
+
 fn main() {
     // mod 1 test case
     // let games = vec![
@@ -290,4 +330,7 @@ fn main() {
     // mod 10 test case
     println!("{}", rgb_to_hex::rgb(0, 255, 0)); // 000000
     println!("{}", rgb_to_hex::rgb(0, 0, -20)); // 000000
+
+    // mod 11 test case
+    factorials::run();
 }

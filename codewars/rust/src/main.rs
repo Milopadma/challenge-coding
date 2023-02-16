@@ -263,9 +263,15 @@ mod factorials {
         let mut n = n;
         // while n is greater than 0
         while n > 0 {
-            n /= 5; // divide n by 5
+            n /= 5; // divide n by 5, why do we divide by 5?
+                    // because 5 is the smallest prime factor of 10
+                    // so if we divide by 5, we will get the number of 5s in the number
+                    // and since 10 = 2 * 5, we can get the number of 10s in the number
+                    // by dividing by 5
+                    // https://www.purplemath.com/modules/factzero.htm
             result += n; // add n to result
                          // repeats until n is below 0
+            println!("n: {}, result: {}", n, result);
         }
         return result;
     }

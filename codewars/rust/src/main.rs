@@ -284,6 +284,24 @@ mod factorials {
     }
 }
 
+mod molecule_to_atoms {
+    use thiserror::Error;
+
+    pub type Atom = (String, usize);
+    pub type Molecule = Vec<Atom>;
+
+    #[derive(Error, Debug)]
+    pub enum ParseError {
+        // variants
+    }
+
+    pub fn parse_molecule(s: &str) -> Result<Molecule, ParseError> {
+        // use regex to parse the string
+        // and return a molecule
+        
+
+
+    }
 fn main() {
     // mod 1 test case
     // let games = vec![

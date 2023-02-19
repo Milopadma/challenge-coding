@@ -338,13 +338,16 @@ mod molecule_to_atoms {
                                 None => (),
                             }
                             mol.push((atom, num));
+                            
+                                
+
                             // recursion stop
                             return mol.to_vec();
 
                             // recursion
                             actual_parse(&s[1..], &mut mol);
                         }
-                        false => return Err(ParseError::NotAtomError),
+
                     }
                 }
 

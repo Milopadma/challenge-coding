@@ -285,6 +285,8 @@ mod factorials {
 }
 
 mod molecule_to_atoms {
+    use std::ops::Index;
+
     pub type Atom = (String, usize);
     pub type Molecule = Vec<Atom>;
 
@@ -302,13 +304,8 @@ mod molecule_to_atoms {
         // the molecule to return
         let mut mol = Molecule::new();
 
-        for char in s.chars(){
-            match char {
-                A..Z => 
-                _ => return Err(ParseError::NotAtomError),
-                }
-            }
-        }
+        // check if the string array has no brackets of any kind
+        if !s.contains('(') || !s.contains('[') || !s.contains('{') {}
 
         Ok(mol)
     }

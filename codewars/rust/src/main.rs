@@ -287,8 +287,9 @@ mod factorials {
 mod molecule_to_atoms {
     use std::ops::Index;
 
-    pub type Atom = (String, usize);
-    pub type Molecule = Vec<Atom>;
+    pub type AtomType = (String, usize);
+    // proper atom type
+    pub type Molecule = Vec<AtomType>;
 
     #[derive(Debug)]
     pub enum ParseError {
@@ -296,7 +297,7 @@ mod molecule_to_atoms {
         NotAtomError,
     }
 
-    pub fn parse_molecule(s: &str) -> Result<Molecule, ParseError> {
+    pub fn parse_molecule(mut s: &str) -> Result<Molecule, ParseError> {
         // no regex!
         // check if its a capital first
         // if it is, then it is an atom
@@ -304,10 +305,58 @@ mod molecule_to_atoms {
         // the molecule to return
         let mut mol = Molecule::new();
 
-        // check if the string array has no brackets of any kind
-        if !s.contains('(') || !s.contains('[') || !s.contains('{') {}
+        mol = actual_parse(&mut s, &mut mol);
 
-        Ok(mol)
+        Ok((mol))
+    }
+
+    fn actual_parse(s: &str, mol: &[(String, usize)]) -> Vec<(String, usize)> {
+        // check if the string array has the opening brackets of any type
+        // if it does, then we need to parse the string inside the brackets
+        if !s.contains('(') && !s.contains('[') && !s.contains('{') {
+            match s.chars().next() {
+                Some(c) => {
+                    if c.is_uppercase() {
+                        // if the first char is uppercase, then it is an atom
+                        // we need to check if the next char is a number
+                        // if it is, then we need to add that number of atoms to the molecule
+                        // if it is not, then we just add 1 atom to the molecule
+                        let mut atom = String::new();
+                        atom.push(c);
+                        let mut i = 1;
+                        while i < s.len() {
+                            if s.chars().nth(i).unwrap().is_lowercase() {
+                                atom.push(s.chars().nth(i).unwrap());
+                            } else {
+                                break;
+                            }
+                            i += 1;
+                        }
+                        let mut num = String::new();
+                        while i < s.len() {
+                            if s.chars().nth(i).unwrap().is_numeric() {
+                                num.push(s.chars().nth(i).unwrap());
+                            } else {
+                                break;
+                            }
+                            i += 1;
+                        }
+                        if num.is_empty() {
+                            mol.push((atom, 1));
+                        } else {
+                            mol.push((atom, num.parse::<usize>().unwrap()));
+                        }
+                    } else {
+                        // if the first char is not uppercase, then it is not an atom
+                        return Err(ParseError::NotAtomError);
+                    }
+                }
+                None => {
+                    // if the string is empty, then we return the molecule
+                    return Ok(mol);
+                }
+            }
+        }
     }
 }
 

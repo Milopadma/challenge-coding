@@ -285,23 +285,35 @@ mod factorials {
 }
 
 mod molecule_to_atoms {
-    use thiserror::Error;
-
     pub type Atom = (String, usize);
     pub type Molecule = Vec<Atom>;
 
-    #[derive(Error, Debug)]
+    #[derive(Debug)]
     pub enum ParseError {
         // variants
+        NotAtomError,
     }
 
     pub fn parse_molecule(s: &str) -> Result<Molecule, ParseError> {
-        // use regex to parse the string
-        // and return a molecule
-        
+        // no regex!
+        // check if its a capital first
+        // if it is, then it is an atom
 
+        // the molecule to return
+        let mut mol = Molecule::new();
 
+        for char in s.chars(){
+            match char {
+                A..Z => 
+                _ => return Err(ParseError::NotAtomError),
+                }
+            }
+        }
+
+        Ok(mol)
     }
+}
+
 fn main() {
     // mod 1 test case
     // let games = vec![
@@ -357,4 +369,7 @@ fn main() {
 
     // mod 11 test case
     factorials::run();
+
+    // mod 12 test case
+    println!("{:?}", molecule_to_atoms::parse_molecule("H2O"));
 }

@@ -310,10 +310,10 @@ mod molecule_to_atoms {
         Ok((mol))
     }
 
-    fn actual_parse(s: &str, mol: &[(String, usize)]) -> Vec<(String, usize)> {
+    fn actual_parse(s: &str, mol: &[(String, usize)]) -> Result<Vec<(String, usize)>, String> {
         // to stop the recursion
         if s.len() == 0 {
-            return mol.to_vec();
+            return Ok(mol.to_vec());
         }
         // check if the string array has the opening brackets of any type
         // if it does, then we need to parse the string inside the brackets
@@ -338,16 +338,18 @@ mod molecule_to_atoms {
                                 None => (),
                             }
                             mol.push((atom, num));
-                            
-                                
-
-                            // recursion stop
-                            return mol.to_vec();
 
                             // recursion
                             actual_parse(&s[1..], &mut mol);
+
+                            return Ok(mol.to_vec());
                         }
 
+                        false => {
+                            // if the first char is not uppercase, then it is not an atom
+                            // we return an error
+                            return Err("Not an atom".to_string());
+                        }
                     }
                 }
 

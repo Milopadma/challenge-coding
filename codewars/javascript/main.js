@@ -1,21 +1,16 @@
 // function that returns the sum of the minimum values in each array
 function sumOfMinimum(nestedArray) {
-  // create an empty array to store the minimum values
-  let min = [];
-  // loop through the nested array
+  let sum = 0;
   for (let i = 0; i < nestedArray.length; i++) {
-    // loop through each array in the nested array
+    let min = nestedArray[i][0];
     for (let j = 0; j < nestedArray[i].length; j++) {
-      // find the minimum value in each array
-      min.push(Math.min(...nestedArray[i]));
-      console.log(min);
+      if (nestedArray[i][j] < min) {
+        min = nestedArray[i][j];
+      }
     }
+    sum += min;
   }
-  //remove duplicates
-  min = [...new Set(min)];
-
-  //return the sum of the minimum values
-  return min.reduce((a, b) => a + b, 0);
+  return sum;
 }
 
 console.log(

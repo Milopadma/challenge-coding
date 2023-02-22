@@ -291,84 +291,76 @@ mod factorials {
 }
 
 mod molecule_to_atoms {
-    use std::ops::Index;
+    use thiserror::Error;
 
-    pub type AtomType = (String, usize);
-    // proper atom type
-    pub type Molecule = Vec<AtomType>;
+    pub type Atom = (String, usize);
+    pub type Molecule = Vec<Atom>;
 
-    #[derive(Debug)]
+    #[derive(Error, Debug)]
     pub enum ParseError {
-        // variants
-        NotAtomError,
+        #[error("invalid molecule")]
+        InvalidMolecule,
     }
 
-    pub fn parse_molecule(mut s: &str) -> Result<Molecule, ParseError> {
-        // no regex!
-        // check if its a capital first
-        // if it is, then it is an atom
-
-        // the molecule to return
-        let mut mol = Molecule::new();
-
-        mol = actual_parse(&mut s, &mut mol);
-
-        Ok((mol))
-    }
-
-    fn actual_parse(s: &str, mol: &[(String, usize)]) -> Result<Vec<(String, usize)>, String> {
-        // to stop the recursion
-        if s.len() == 0 {
-            return Ok(mol.to_vec());
-        }
-        // check if the string array has the opening brackets of any type
-        // if it does, then we need to parse the string inside the brackets
-        if !s.contains('(') && !s.contains('[') && !s.contains('{') {
-            match s.chars().next() {
-                Some(c) => {
-                    match c.is_uppercase() {
-                        true => {
-                            // if the first char is uppercase, then it is an atom
-                            // we need to check if the next char is a number
-                            // if it is, then we need to multiply the number of atoms by the number
-                            // if it is not, then we just add 1 to the number of atoms
-                            let mut atom = String::new();
-                            atom.push(c);
-                            let mut num = 1;
-                            match s.chars().nth(1) {
-                                Some(n) => {
-                                    if n.is_numeric() {
-                                        num = n.to_digit(10).unwrap();
-                                    }
-                                }
-                                None => (),
-                            }
-                            mol.push((atom, num));
-
-                            // recursion
-                            actual_parse(&s[1..], &mut mol);
-
-                            return Ok(mol.to_vec());
-                        }
-
-                        false => {
-                            // if the first char is not uppercase, then it is not an atom
-                            // we return an error
-                            return Err("Not an atom".to_string());
+    pub fn parse_molecule(s: &str) -> Result<Molecule, ParseError> {
+        // https://www.codewars.com/kata/52f831fa9d332c6591000511
+        let mut molecule = vec![];
+        // just straight up invalidate lowercase first chars
+        if s.chars().nth(0).unwrap().is_lowercase() {
+            return Err(ParseError::InvalidMolecule);
+        } else {
+            // turn s into a tuple of chars and the number next to it
+            // if there is no number next to it, then it is 1
+            let mut chars = s.chars().peekable();
+            // peekable so we can peek at the next char without consuming it
+            let mut num = 1;
+            let mut atom = String::new();
+            while let Some(c) = chars.next() {
+                if c.is_uppercase() {
+                    if !atom.is_empty() {
+                        molecule.push((atom, num));
+                        atom = String::new();
+                        num = 1;
+                    }
+                    atom.push(c);
+                } else if c.is_lowercase() {
+                    atom.push(c);
+                } else if c.is_numeric() {
+                    num = c.to_digit(10).unwrap() as usize;
+                    if let Some(&c) = chars.peek() {
+                        if c.is_numeric() {
+                            num = num * 10 + c.to_digit(10).unwrap() as usize;
+                            chars.next();
                         }
                     }
-                }
-
-                // when it reaches the end
-                None => {
-                    // if the string is empty, then we return the molecule
-                    return mol.iter().map(|(a, _)| (a.clone(), 1)).collect();
+                } else if c == '(' {
+                    let mut count = 1;
+                    let mut sub = String::new();
+                    while let Some(c) = chars.next() {
+                        if c == '(' {
+                            count += 1;
+                        } else if c == ')' {
+                            count -= 1;
+                        }
+                        if count == 0 {
+                            break;
+                        }
+                        sub.push(c);
+                    }
+                    let sub = parse_molecule(&sub)?;
+                    for (atom, n) in sub {
+                        molecule.push((atom, n * num));
+                    }
+                    num = 1;
+                } else {
+                    return Err(ParseError::InvalidMolecule);
                 }
             }
-        } else {
-            // if the string does not have any brackets, then we just return the molecule
-            return mol.iter().map(|(a, _)| (a.clone(), 1)).collect();
+            if !atom.is_empty() {
+                molecule.push((atom, num));
+            }
         }
+        Ok(molecule)
     }
 }
 

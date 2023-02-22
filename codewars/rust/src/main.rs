@@ -300,6 +300,8 @@ mod molecule_to_atoms {
     pub enum ParseError {
         #[error("invalid molecule")]
         InvalidMolecule,
+        #[error("Mismatched parentheses")]
+        MismatchedParentheses,
     }
 
     pub fn parse_molecule(s: &str) -> Result<Molecule, ParseError> {
@@ -362,6 +364,9 @@ mod molecule_to_atoms {
         }
         Ok(molecule)
     }
+
+    // best practice solution from codewars
+    // https://www.codewars.com/kata/reviews/58acf5ad530a19d7580006ff/groups/63f3feb1d8d7350001b984e2
 }
 
 fn main() {

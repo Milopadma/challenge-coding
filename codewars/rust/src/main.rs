@@ -290,6 +290,88 @@ mod factorials {
     }
 }
 
+mod molecule_to_atoms {
+    use std::ops::Index;
+
+    pub type AtomType = (String, usize);
+    // proper atom type
+    pub type Molecule = Vec<AtomType>;
+
+    #[derive(Debug)]
+    pub enum ParseError {
+        // variants
+        NotAtomError,
+    }
+
+    pub fn parse_molecule(mut s: &str) -> Result<Molecule, ParseError> {
+        // no regex!
+        // check if its a capital first
+        // if it is, then it is an atom
+
+        // the molecule to return
+        let mut mol = Molecule::new();
+
+        mol = actual_parse(&mut s, &mut mol);
+
+        Ok((mol))
+    }
+
+    fn actual_parse(s: &str, mol: &[(String, usize)]) -> Result<Vec<(String, usize)>, String> {
+        // to stop the recursion
+        if s.len() == 0 {
+            return Ok(mol.to_vec());
+        }
+        // check if the string array has the opening brackets of any type
+        // if it does, then we need to parse the string inside the brackets
+        if !s.contains('(') && !s.contains('[') && !s.contains('{') {
+            match s.chars().next() {
+                Some(c) => {
+                    match c.is_uppercase() {
+                        true => {
+                            // if the first char is uppercase, then it is an atom
+                            // we need to check if the next char is a number
+                            // if it is, then we need to multiply the number of atoms by the number
+                            // if it is not, then we just add 1 to the number of atoms
+                            let mut atom = String::new();
+                            atom.push(c);
+                            let mut num = 1;
+                            match s.chars().nth(1) {
+                                Some(n) => {
+                                    if n.is_numeric() {
+                                        num = n.to_digit(10).unwrap();
+                                    }
+                                }
+                                None => (),
+                            }
+                            mol.push((atom, num));
+
+                            // recursion
+                            actual_parse(&s[1..], &mut mol);
+
+                            return Ok(mol.to_vec());
+                        }
+
+                        false => {
+                            // if the first char is not uppercase, then it is not an atom
+                            // we return an error
+                            return Err("Not an atom".to_string());
+                        }
+                    }
+                }
+
+                // when it reaches the end
+                None => {
+                    // if the string is empty, then we return the molecule
+                    return mol.iter().map(|(a, _)| (a.clone(), 1)).collect();
+                }
+            }
+        } else {
+            // if the string does not have any brackets, then we just return the molecule
+            return mol.iter().map(|(a, _)| (a.clone(), 1)).collect();
+        }
+    }
+}
+
 fn main() {
     // mod 1 test case
     // let games = vec![
@@ -345,4 +427,7 @@ fn main() {
 
     // mod 11 test case
     factorials::run();
+
+    // mod 12 test case
+    println!("{:?}", molecule_to_atoms::parse_molecule("H2O"));
 }

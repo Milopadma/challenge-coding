@@ -1,20 +1,15 @@
-// sum of minimums
-function sumOfMinimums(arr) {
+// function that returns the sum of the minimum values in each array
+function sumOfMinimum(nestedArray) {
+  // create an empty array to store the minimum values
   let min = [];
-  for (let i = 0; i < arr.length; i++) {
-    for (let j = 0; j < arr[i].length; j++) {
+  // loop through the nested array
+  for (let i = 0; i < nestedArray.length; i++) {
+    // loop through each array in the nested array
+    for (let j = 0; j < nestedArray[i].length; j++) {
       // find the minimum value in each array
-      min.push(Math.min(...arr[i]));
+      min.push(Math.min(...nestedArray[i]));
     }
   }
   //return the sum of the minimum values
-  return min.reduce((a, b) => a + b, 0);
-}
-
-function sumOfMinimum(arr) {
-  let min = [];
-  for (let i = 0; i < arr.length; i++) {
-    min.push(Math.min(...arr[i]));
-  }
   return min.reduce((a, b) => a + b, 0);
 }

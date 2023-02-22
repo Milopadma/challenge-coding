@@ -1,4 +1,5 @@
 mod team_points {
+    #[allow(dead_code)]
     pub fn points(games: &[String]) -> u32 {
         let mut total: u32 = 0;
         games.iter().for_each(|game| {
@@ -22,6 +23,7 @@ mod team_points {
 }
 
 mod convert_from_string {
+    #[allow(dead_code)]
     pub fn convert_from_string(str: &str) -> i32 {
         //parse to i32
         let num = str.parse::<i32>().unwrap();
@@ -30,6 +32,7 @@ mod convert_from_string {
 }
 
 mod count_by {
+    #[allow(dead_code)]
     pub fn count_by(x: u32, n: u32) -> Vec<u32> {
         let mut result: Vec<u32> = Vec::new();
         for i in 1..=n {
@@ -65,6 +68,7 @@ mod rep_max_calc {
 }
 
 mod threes_fives {
+    #[allow(dead_code)]
     pub fn solution(num: i32) -> i32 {
         let mut sum = 0;
         for i in 1..num {
@@ -84,6 +88,7 @@ mod threes_fives {
     }
 
     // a better solution i found on codewars
+    #[allow(dead_code)]
     pub fn solution_better(num: i32) -> i32 {
         (1..num)
             .into_iter()
@@ -112,6 +117,7 @@ mod move_zeroes {
 
     // functionally the same as above but is a bit more concise for functional programming enthusiasts
     use std::iter;
+    #[allow(dead_code)]
     fn move_zeros(arr: &[u8]) -> Vec<u8> {
         arr.iter()
             .cloned()

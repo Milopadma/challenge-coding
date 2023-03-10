@@ -396,16 +396,16 @@ mod insertion_sort_list_leetcode {
         let mut current = &mut head;
 
         // Traverse the list until we find the correct position to insert the new node
-        while let Some(node) = current.as_mut() {
+        while let Some(node) = current.as_deref_mut() {
             if node.val > val {
-                new_node.next = mem::replace(current, Some(new_node));
+                new_node.clone().next = mem::replace(current.as_mut(), Some(new_node.clone()));
                 break;
             }
             current = &mut node.next;
         }
 
         // If we reached the end of the list, just append the new node
-        if current.is_none() {
+        if current.clone().is_none() {
             mem::replace(current, Some(new_node));
         }
 

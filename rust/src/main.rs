@@ -369,6 +369,39 @@ mod molecule_to_atoms {
     // https://www.codewars.com/kata/reviews/58acf5ad530a19d7580006ff/groups/63f3feb1d8d7350001b984e2
 }
 
+mod insertion_sort_list_leetcode {
+    //  Definition for singly-linked list.
+    #[derive(PartialEq, Eq, Clone, Debug)]
+    pub struct ListNode {
+        pub val: i32,
+        pub next: Option<Box<ListNode>>,
+    }
+
+    impl ListNode {
+        #[inline]
+        fn new(val: i32) -> Self {
+            ListNode { next: None, val }
+        }
+    }
+    pub fn insertion_sort_list(head: Option<Box<ListNode>>) -> Option<Box<ListNode>> {
+        let mut current = head;
+        let mut prev = None;
+        loop {
+            if let Some(mut node) = current.clone() {
+                if current.unwrap().to_owned().val < node.to_owned().val {
+                    let next = node.next.take();
+                    node.next = prev;
+                    prev = Some(node);
+                    current = next;
+                } else {
+                    prev = Some(node.clone());
+                    current = node.next;
+                }
+            }
+        }
+    }
+}
+
 fn main() {
     // mod 1 test case
     // let games = vec![

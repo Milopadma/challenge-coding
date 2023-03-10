@@ -383,23 +383,7 @@ mod insertion_sort_list_leetcode {
             ListNode { next: None, val }
         }
     }
-    pub fn insertion_sort_list(head: Option<Box<ListNode>>) -> Option<Box<ListNode>> {
-        let mut current = head;
-        let mut prev = None;
-        loop {
-            if let Some(mut node) = current.clone() {
-                if current.unwrap().to_owned().val < node.to_owned().val {
-                    let next = node.next.take();
-                    node.next = prev;
-                    prev = Some(node);
-                    current = next;
-                } else {
-                    prev = Some(node.clone());
-                    current = node.next;
-                }
-            }
-        }
-    }
+    pub fn insertion_sort_list(head: Option<Box<ListNode>>) -> Option<Box<ListNode>> {}
 }
 
 fn main() {
@@ -434,7 +418,7 @@ fn main() {
                                                           // println!("{}", rep_max_calc::calculate_1_rm(360, 1)); // 360
                                                           // println!("{}", rep_max_calc::calculate_1_rm(400, 0)); // 0
 
-    // mod 5 test case
+    //
     // println!("{}", threes_fives::solution(10)); // 23
 
     // mod 6 test case

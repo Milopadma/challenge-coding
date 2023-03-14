@@ -370,6 +370,7 @@ mod molecule_to_atoms {
 }
 
 mod insertion_sort_list_leetcode {
+    use std::mem;
     //  Definition for singly-linked list.
     #[derive(PartialEq, Eq, Clone, Debug)]
     pub struct ListNode {
@@ -383,7 +384,46 @@ mod insertion_sort_list_leetcode {
             ListNode { next: None, val }
         }
     }
-    pub fn insertion_sort_list(head: Option<Box<ListNode>>) -> Option<Box<ListNode>> {}
+    pub fn insertion_sort_list(mut head: Option<Box<ListNode>>, val: i32) -> Option<Box<ListNode>> {
+        // Create a new node with the given value
+        let mut new_node = Box::new(ListNode::new(val));
+
+        // If the list is empty, return the new node
+        if head.is_none() {
+            return Some(new_node);
+        }
+
+        let mut current = &mut head;
+
+        // Traverse the list until we find the correct position to insert the new node
+        while let Some(node) = current.as_deref_mut() {
+            if node.val > val {
+                new_node.clone().next = mem::replace(current.as_mut(), Some(new_node.clone()));
+                break;
+            }
+            current = &mut node.next;
+        }
+
+        // If we reached the end of the list, just append the new node
+        if current.clone().is_none() {
+            mem::replace(current, Some(new_node));
+        }
+
+        head
+    }
+
+    fn insertion_sort(head: Option<Box<ListNode>>) -> Option<Box<ListNode>> {
+        let mut sorted = None;
+
+        // Traverse the original list and insert each node into the sorted list
+        let mut current = head;
+        while let Some(mut node) = current {
+            current = node.next.take();
+            sorted = insertion_sort_list(sorted, node.val);
+        }
+
+        sorted
+    }
 }
 
 fn main() {

@@ -424,6 +424,21 @@ mod insertion_sort_list_leetcode {
 
         sorted
     }
+
+    mod two_sum_leetcode {
+        pub fn two_sum(mut nums: Vec<i32>, target: i32) -> Vec<i32> {
+            let mut result = vec![];
+            for i in 0..nums.len() - 1 {
+                if nums[i] + nums[i + 1] == target {
+                    nums.remove(i);
+                    result.push(i as i32);
+                } else {
+                    continue;
+                }
+            }
+            result
+        }
+    }
 }
 
 fn main() {

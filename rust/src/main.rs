@@ -424,20 +424,38 @@ mod insertion_sort_list_leetcode {
 
         sorted
     }
+}
 
-    mod two_sum_leetcode {
-        pub fn two_sum(mut nums: Vec<i32>, target: i32) -> Vec<i32> {
-            let mut result = vec![];
-            for i in 0..nums.len() - 1 {
-                for j in i + 1..nums.len() {
-                    if nums[i] + nums[j] == target {
-                        result.push(i as i32);
-                        result.push(j as i32);
-                    }
+mod two_sum_leetcode {
+    pub fn two_sum(mut nums: Vec<i32>, target: i32) -> Vec<i32> {
+        let mut result = vec![];
+        for i in 0..nums.len() - 1 {
+            for j in i + 1..nums.len() {
+                if nums[i] + nums[j] == target {
+                    result.push(i as i32);
+                    result.push(j as i32);
                 }
             }
-            result
         }
+        result
+    }
+
+    // better faster solution using hashmaps
+    pub fn hashmap_two_sum(nums: Vec<i32>, target: i32) -> Vec<i32> {
+        use std::collections::HashMap;
+
+        let mut m: HashMap<i32, i32> = HashMap::new();
+        // iterate through nums
+        for (i, num) in nums.iter().enumerate() {
+            // match on the indexs of target - value of current indx
+            match m.get(&(target - *num)) {
+                // then return as a new vec when found
+                Some(&i2) => return vec![i as i32, i2 as i32],
+                // if not then add to visited hashmap
+                None => m.insert(*num, i as i32),
+            };
+        }
+        vec![] // so it doesnt scream even though it reaches here
     }
 }
 

@@ -426,6 +426,66 @@ mod insertion_sort_list_leetcode {
     }
 }
 
+mod add_two_numbers_lc {
+    pub struct ListNode {
+        pub val: i32,
+        pub next: Option<Box<ListNode>>,
+    }
+
+    impl ListNode {
+        #[inline]
+        fn new(val: i32) -> Self {
+            ListNode { next: None, val }
+        }
+    }
+    use std::cmp::Reverse;
+
+    pub fn add_two_numbers(
+        l1: Option<Box<ListNode>>,
+        l2: Option<Box<ListNode>>,
+    ) -> Option<Box<ListNode>> {
+        // reverse the two linked list first
+        let mut reversed_l1 = Reverse(l1);
+        let mut reversed_l2 = Reverse(l2);
+
+        // add then turn them linked lists to a vec
+        let mut l1_vec: Vec<i32> = vec![];
+
+        // loop over both l1 and l2 and add them together
+        loop {
+            match (reversed_l1, reversed_l2) {
+                (Reverse(Some(l1_node)), Reverse(Some(l2_node))) => {
+                    l1_vec.push(l1_node.val + l2_node.val);
+                }
+                _ => break,
+            }
+        }
+
+        // result vec
+        let mut result: Option<Box<ListNode>> = None;
+
+        result
+    }
+}
+
+mod palindrome_lc {
+    pub fn is_palindrome(x: i32) -> bool {
+        let isPalindrome = match x {
+            x if x < 0 => false,
+            _ => {
+                let mut reverse = x.to_string().chars().rev().collect::<String>();
+                let mut x = x.to_string();
+                if reverse == x {
+                    true
+                } else {
+                    false
+                }
+            }
+        };
+        isPalindrome
+    }
+}
+
 fn main() {
     // mod 1 test case
     // let games = vec![

@@ -426,7 +426,6 @@ mod insertion_sort_list_leetcode {
     }
 }
 
-<<<<<<< HEAD
 mod add_two_numbers_lc {
     pub struct ListNode {
         pub val: i32,
@@ -484,38 +483,56 @@ mod palindrome_lc {
             }
         };
         isPalindrome
-=======
-mod two_sum_leetcode {
-    pub fn two_sum(mut nums: Vec<i32>, target: i32) -> Vec<i32> {
-        let mut result = vec![];
-        for i in 0..nums.len() - 1 {
-            for j in i + 1..nums.len() {
-                if nums[i] + nums[j] == target {
-                    result.push(i as i32);
-                    result.push(j as i32);
+    }
+}
+
+mod roman_to_integer_lc {
+    pub fn roman_to_int(s: String) -> i32 {
+        let mut result = 0;
+        let mut chars = s.chars().peekable();
+        while let Some(c) = chars.next() {
+            match c {
+                'I' => {
+                    if let Some(&'V') = chars.peek() {
+                        result += 4;
+                        chars.next();
+                    } else if let Some(&'X') = chars.peek() {
+                        result += 9;
+                        chars.next();
+                    } else {
+                        result += 1;
+                    }
                 }
+                'V' => result += 5,
+                'X' => {
+                    if let Some(&'L') = chars.peek() {
+                        result += 40;
+                        chars.next();
+                    } else if let Some(&'C') = chars.peek() {
+                        result += 90;
+                        chars.next();
+                    } else {
+                        result += 10;
+                    }
+                }
+                'L' => result += 50,
+                'C' => {
+                    if let Some(&'D') = chars.peek() {
+                        result += 400;
+                        chars.next();
+                    } else if let Some(&'M') = chars.peek() {
+                        result += 900;
+                        chars.next();
+                    } else {
+                        result += 100;
+                    }
+                }
+                'D' => result += 500,
+                'M' => result += 1000,
+                _ => return 0,
             }
         }
         result
-    }
-
-    // better faster solution using hashmaps
-    pub fn hashmap_two_sum(nums: Vec<i32>, target: i32) -> Vec<i32> {
-        use std::collections::HashMap;
-
-        let mut m: HashMap<i32, i32> = HashMap::new();
-        // iterate through nums
-        for (i, num) in nums.iter().enumerate() {
-            // match on the indexs of target - value of current indx
-            match m.get(&(target - *num)) {
-                // then return as a new vec when found
-                Some(&i2) => return vec![i as i32, i2 as i32],
-                // if not then add to visited hashmap
-                None => m.insert(*num, i as i32),
-            };
-        }
-        vec![] // so it doesnt scream even though it reaches here
->>>>>>> 4424258eaeb2cc1acefc306aeae3ae6bf1d04702
     }
 }
 

@@ -536,6 +536,27 @@ mod roman_to_integer_lc {
     }
 }
 
+mod longest_common_prefix_leetcode {
+    pub fn longest_common_prefix(strs: Vec<String>) -> String {
+        // note to self; read the question properly
+        // apparantly i didnt even need to use a moving window method
+        let mut prefix = String::new();
+        if strs.is_empty() {
+            return prefix;
+        }
+        let first_str = &strs[0];
+        for (i, charac) in first_str.chars().enumerate() {
+            // check if the character is the same in all the other strings
+            for strng in &strs[1..] {
+                if i >= strng.len() || strng.chars().nth(i) != Some(charac) {
+                    return prefix;
+                }
+            }
+            prefix.push(charac);
+        }
+        prefix
+    }
+}
 fn main() {
     // mod 1 test case
     // let games = vec![

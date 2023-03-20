@@ -557,6 +557,37 @@ mod longest_common_prefix_leetcode {
         prefix
     }
 }
+
+mod valid_parentheses {
+    pub fn is_valid(s: String) -> bool {
+        let mut stack: Vec<char> = vec![];
+        for c in s.chars() {
+            match c {
+                // any of these, add to the stack
+                '(' | '{' | '[' => stack.push(c),
+                ')' => {
+                    // check if the pop is j
+                    if stack.pop() != Some('(') {
+                        return false;
+                    }
+                }
+                '}' => {
+                    if stack.pop() != Some('{') {
+                        return false;
+                    }
+                }
+                ']' => {
+                    if stack.pop() != Some('[') {
+                        return false;
+                    }
+                }
+                _ => return false,
+            }
+        }
+        // because if its empty, means all are closed properly
+        stack.is_empty()
+    }
+}
 fn main() {
     // mod 1 test case
     // let games = vec![

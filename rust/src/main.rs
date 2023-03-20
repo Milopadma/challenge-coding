@@ -588,6 +588,56 @@ mod valid_parentheses {
         stack.is_empty()
     }
 }
+
+mod merge_two_sorted_lists_lc {
+    #[derive(PartialEq, Eq, Clone, Debug)]
+    pub struct ListNode {
+        pub val: i32,
+        pub next: Option<Box<ListNode>>,
+    }
+
+    impl ListNode {
+        #[inline]
+        fn new(val: i32) -> Self {
+            ListNode { next: None, val }
+        }
+    }
+
+    pub fn merge_two_lists(
+        list1: Option<Box<ListNode>>,
+        list2: Option<Box<ListNode>>,
+    ) -> Option<Box<ListNode>> {
+        // loop from first list
+        // and compare values from
+        // second list,
+        // then mutate second list by taking
+        // the values into the first list
+
+        if list1.is_none() {
+            return list2;
+        }
+        if list2.is_none() {
+            return list1;
+        }
+
+        loop {
+            match (list1, list2) {
+                (Some(l1_node), Some(l2_node)) => {
+                    if l1_node.val <= l2_node.val {
+                        // add l2_node to l1_node
+                        l1_node.next = Some(Box::new(ListNode::new(l2_node.val)));
+                    } else {
+                        // nothing
+                        continue;
+                    }
+                }
+                _ => break,
+            }
+        }
+        list1
+    }
+}
+
 fn main() {
     // mod 1 test case
     // let games = vec![

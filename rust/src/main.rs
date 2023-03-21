@@ -398,16 +398,16 @@ mod insertion_sort_list_leetcode {
         // Traverse the list until we find the correct position to insert the new node
         while let Some(node) = current.as_deref_mut() {
             if node.val > val {
-                new_node.clone().next = mem::replace(current.as_mut(), Some(new_node.clone()));
+                // new_node.clone().next = mem::replace(current.as_mut(), Some(new_node.clone()));
                 break;
             }
             current = &mut node.next;
         }
 
         // If we reached the end of the list, just append the new node
-        if current.clone().is_none() {
-            mem::replace(current, Some(new_node));
-        }
+        // if current.clone().is_none() {
+        //     mem::replace(current, Some(new_node));
+        // }
 
         head
     }
@@ -452,14 +452,14 @@ mod add_two_numbers_lc {
         let mut l1_vec: Vec<i32> = vec![];
 
         // loop over both l1 and l2 and add them together
-        loop {
-            match (reversed_l1, reversed_l2) {
-                (Reverse(Some(l1_node)), Reverse(Some(l2_node))) => {
-                    l1_vec.push(l1_node.val + l2_node.val);
-                }
-                _ => break,
-            }
-        }
+        // loop {
+        //     match (reversed_l1, reversed_l2) {
+        //         (Reverse(Some(l1_node)), Reverse(Some(l2_node))) => {
+        //             l1_vec.push(l1_node.val + l2_node.val);
+        //         }
+        //         _ => break,
+        //     }
+        // }
 
         // result vec
         let mut result: Option<Box<ListNode>> = None;
@@ -607,34 +607,25 @@ mod merge_two_sorted_lists_lc {
         list1: Option<Box<ListNode>>,
         list2: Option<Box<ListNode>>,
     ) -> Option<Box<ListNode>> {
-        // loop from first list
-        // and compare values from
-        // second list,
-        // then mutate second list by taking
-        // the values into the first list
-
-        if list1.is_none() {
-            return list2;
-        }
-        if list2.is_none() {
-            return list1;
-        }
-
-        loop {
+        {
             match (list1, list2) {
-                (Some(l1_node), Some(l2_node)) => {
-                    if l1_node.val <= l2_node.val {
-                        // add l2_node to l1_node
-                        l1_node.next = Some(Box::new(ListNode::new(l2_node.val)));
+                (None, None) => None,
+                (None, Some(node)) | (Some(node), None) => Some(node),
+                (Some(node1), Some(node2)) => {
+                    if node1.val < node2.val {
+                        Some(Box::new(ListNode {
+                            val: node1.val,
+                            next: merge_two_lists(node1.next, Some(node2)),
+                        }))
                     } else {
-                        // nothing
-                        continue;
+                        Some(Box::new(ListNode {
+                            val: node2.val,
+                            next: merge_two_lists(Some(node1), node2.next),
+                        }))
                     }
                 }
-                _ => break,
             }
         }
-        list1
     }
 }
 
@@ -696,4 +687,37 @@ fn main() {
 
     // mod 12 test case
     println!("{:?}", molecule_to_atoms::parse_molecule("H2O"));
+
+    // mod 13 test case
+    println!(
+        "{}",
+        roman_to_integer_lc::roman_to_int("MCMXCIV".to_string())
+    ); // 1994
+
+    // mod 14 test case
+    let strs = vec![
+        "flower".to_string(),
+        "flow".to_string(),
+        "flight".to_string(),
+    ];
+
+    println!(
+        "{}",
+        longest_common_prefix_leetcode::longest_common_prefix(strs)
+    );
+
+    // mod 15 test case
+    println!("{}", valid_parentheses::is_valid("()[]{}".to_string())); // true
+
+    // mod 16 test case
+    let list1 = Some(Box::new(merge_two_sorted_lists_lc::ListNode {
+        val: 1,
+        next: Some(Box::new(merge_two_sorted_lists_lc::ListNode {
+            val: 2,
+            next: Some(Box::new(merge_two_sorted_lists_lc::ListNode {
+                val: 4,
+                next: None,
+            })),
+        })),
+    }));
 }

@@ -40,30 +40,6 @@ mod merge_two_sorted_lists_lc {
     }
 }
 
-mod merge_sorted_array_lc {
-    use core::num;
-
-    pub fn merge(nums1: &mut Vec<i32>, m: i32, nums2: &mut Vec<i32>, n: i32) {
-        // trim out the 0s
-        let mut trimmed_nums1: Vec<i32> = nums1
-            .iter()
-            .filter(|&x| *x != 0)
-            .map(|&x| x)
-            .collect::<Vec<i32>>();
-        // iterate and evaluate, O of n^2
-        for (i, num) in trimmed_nums1.clone().iter().enumerate() {
-            for (i2, num2) in nums2.iter().enumerate() {
-                if *num2 as i32 >= *num as i32 {
-                    trimmed_nums1.insert(i, *num2);
-                    nums2.remove(i2);
-                    break;
-                } else {
-                    continue;
-                }
-            }
-        }
-    }
-}
 pub fn main() {
     // mod 16 test case
     // first linked list

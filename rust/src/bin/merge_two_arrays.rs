@@ -6,7 +6,7 @@ mod merge_sorted_array_lc {
         for (i, num) in nums1.clone().iter().enumerate() {
             for (i2, num2) in nums2.iter().enumerate() {
                 if *num2 as i32 >= *num as i32 {
-                    nums1.insert(i, *num2);
+                    nums1.insert(i, *num2); // focus here
                     nums2.remove(i2);
                     break;
                 } else {

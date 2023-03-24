@@ -1,11 +1,7 @@
 // Title: Remove Duplicates from Sorted Array
 
 pub fn remove_duplicates(nums: &mut Vec<i32>) -> i32 {
-    for (i, num) in nums.clone().iter().enumerate() {
-        if i > 0 && num == &nums[i - 1] {
-            nums.remove(i);
-        }
-    }
+    nums.dedup();
     nums.len() as i32
 }
 // turn the vec into enumeratable iterator and then

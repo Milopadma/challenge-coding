@@ -1,10 +1,13 @@
 pub fn remove_element(nums: &mut Vec<i32>, val: i32) -> i32 {
-    for (i, num) in nums.clone().iter().enumerate() {
-        if *num == val {
-            nums.swap(i, nums.len() - 1);
+    let mut i = 0;
+    for j in 0..nums.len() {
+        if nums[j] != val {
+            nums[i] = nums[j];
+            i += 1;
+            println!("i: {}, j: {}", i, j)
         }
     }
-    nums.len() as i32
+    i as i32
 }
 
 pub fn main() {

@@ -1,25 +1,28 @@
-pub fn minimize_array_value(nums: &mut Vec<i32>) -> i32 {
+pub fn minimize_array_value(nums: Vec<i32>) -> i32 {
     let n = nums.len();
     if n <= 1 {
         return nums[0];
     }
-    // Initialize the minimum possible value of the maximum integer
     let mut min_max_val = nums[0];
-    // Iterate through the array
+    let mut sum = nums[0] as usize;
+
     for i in 1..n {
-        // If nums[i] > 0 and nums[i - 1] < nums[i], perform the operation
-        if nums[i] > 0 && nums[i - 1] < nums[i] {
-            nums[i - 1] += 1;
-            nums[i] -= 1;
-        }
-        // Update the minimum possible value of the maximum integer
-        min_max_val = min_max_val.max(nums[i]);
+        // Update the sum of elements in the array
+        sum += nums[i] as usize;
+        // Calculate the minimum possible value for the current maximum element
+        let min_possible_val = (sum + i) / (i + 1);
+        min_max_val = min_max_val.max(min_possible_val as i32);
     }
+
     min_max_val
 }
 
 pub fn main() {
     let mut nums = vec![3, 7, 1, 6];
-    let min = minimize_array_value(&mut nums);
+    let min = minimize_array_value(nums);
     println!("Min value is {}", min);
+
+    let mut nums_2 = vec![10, 1];
+    let min_2 = minimize_array_value(nums_2);
+    println!("Min value is {}", min_2);
 }

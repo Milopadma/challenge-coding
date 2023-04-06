@@ -33,7 +33,7 @@ pub fn closed_island(grid: Vec<Vec<i32>>) -> i32 {
         }
     }
     count
-// }
+}
 
 // // explanation from gpt4
 // 1. In the `dfs` function, the boundary check and the condition to return

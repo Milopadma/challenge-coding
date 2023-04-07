@@ -6,7 +6,8 @@ fn dfs(grid: &mut Vec<Vec<i32>>, i: usize, j: usize) -> i32 {
     }
 
     if grid[i][j] == 1 {
-        grid[i][j] = 2;
+        grid[i][j] = 2; // visited
+        println!("{} {}", i, j);
         let mut count = 1;
         count += dfs(grid, i + 1, j);
         count += dfs(grid, i - 1, j);
@@ -23,9 +24,7 @@ pub fn num_enclaves(grid: Vec<Vec<i32>>) -> i32 {
     let mut count = 0;
     for i in 1..grid.len() - 1 {
         for j in 1..grid[0].len() - 1 {
-            if grid[i][j] == 0 {
-                count = count + dfs(&mut grid, i, j);
-            }
+            count = count + dfs(&mut grid, i, j);
         }
     }
     count

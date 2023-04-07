@@ -2,6 +2,9 @@ fn dfs(grid: &mut Vec<Vec<i32>>, i: usize, j: usize) -> i32 {
     // check if the 1 is surrounded by 0s or other 1s, in which case,
     // it is an enclave
     if i == 0 || i == grid.len() - 1 || j == 0 || j == grid[0].len() - 1 {
+        // need to check if this edge 1 is connected to the other 1s that are supposed to be enclaves
+        // if it is, then it is not an enclave
+
         return 0;
     }
 

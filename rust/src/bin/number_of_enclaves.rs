@@ -11,6 +11,8 @@ mod solution {
         count
     }
 
+    // basifc bfs with check to see if the node is at the edge,
+    // if it is, then we don't count it nad dont count any of its neighbors
     fn bfs(grid: &mut Vec<Vec<i32>>, i: usize, j: usize) -> i32 {
         if grid[i][j] == 0 {
             return 0;
@@ -21,6 +23,9 @@ mod solution {
             let (i, j) = queue.pop().unwrap();
             if grid[i][j] == 0 {
                 continue;
+            }
+            if i == 0 || i == grid.len() - 1 || j == 0 || j == grid[0].len() - 1 {
+                return 0;
             }
             grid[i][j] = 0;
             count += 1;

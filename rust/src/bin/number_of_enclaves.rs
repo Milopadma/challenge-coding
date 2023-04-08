@@ -1,38 +1,45 @@
-fn dfs(grid: &mut Vec<Vec<i32>>, i: usize, j: usize) -> i32 {
-    // check if the 1 is surrounded by 0s or other 1s, in which case,
-    // it is an enclave
-    if i == 0 || i == grid.len() - 1 || j == 0 || j == grid[0].len() - 1 {
-        // need to check if this edge 1 is connected to the other 1s that are supposed to be enclaves
-        // if it is, then it is not an enclave
+mod solution {
 
-        return 0;
-    }
-
-    if grid[i][j] == 1 {
-        grid[i][j] = 2; // visited
-        println!("{} {}", i, j);
-        let mut count = 1;
-        count += dfs(grid, i + 1, j);
-        count += dfs(grid, i - 1, j);
-        count += dfs(grid, i, j + 1);
-        count += dfs(grid, i, j - 1);
-        count
-    } else {
-        0
-    }
-}
-
-pub fn num_enclaves(grid: Vec<Vec<i32>>) -> i32 {
-    let mut grid = grid;
-    let mut count = 0;
-    for i in 1..grid.len() - 1 {
-        for j in 1..grid[0].len() - 1 {
-            count = count + dfs(&mut grid, i, j);
+    pub fn num_enclaves(grid: Vec<Vec<i32>>) -> i32 {
+        let mut grid = grid;
+        let mut count = 0;
+        for i in 1..grid.len() - 1 {
+            for j in 1..grid[0].len() - 1 {
+                count = count + bfs(&mut grid, i, j);
+            }
         }
+        count
     }
-    count
-}
 
+    fn bfs(grid: &mut Vec<Vec<i32>>, i: usize, j: usize) -> i32 {
+        if grid[i][j] == 0 {
+            return 0;
+        }
+        let mut count = 0;
+        let mut queue = vec![(i, j)];
+        while !queue.is_empty() {
+            let (i, j) = queue.pop().unwrap();
+            if grid[i][j] == 0 {
+                continue;
+            }
+            grid[i][j] = 0;
+            count += 1;
+            if i > 0 {
+                queue.push((i - 1, j));
+            }
+            if i < grid.len() - 1 {
+                queue.push((i + 1, j));
+            }
+            if j > 0 {
+                queue.push((i, j - 1));
+            }
+            if j < grid[0].len() - 1 {
+                queue.push((i, j + 1));
+            }
+        }
+        count
+    }
+}
 pub fn main() {
     let grid = vec![
         vec![0, 0, 0, 0],
@@ -40,5 +47,5 @@ pub fn main() {
         vec![0, 1, 1, 0],
         vec![0, 0, 0, 0],
     ];
-    println!("{}", num_enclaves(grid));
+    println!("{}", solution::num_enclaves(grid));
 }

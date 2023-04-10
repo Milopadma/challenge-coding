@@ -1,5 +1,4 @@
 mod solution {
-
     pub fn num_enclaves(grid: Vec<Vec<i32>>) -> i32 {
         let mut grid = grid;
         let mut count = 0;

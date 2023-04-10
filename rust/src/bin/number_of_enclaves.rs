@@ -23,6 +23,11 @@ mod solution {
             }
         }
 
+        // By separating the marking of land cells connected to the boundary and
+        // counting the remaining land cells, the modified solution correctly
+        // handles the cases where land cells connected to the boundary are also
+        // connected to other land cells not directly connected to the boundary.
+
         count
     }
 
@@ -56,3 +61,9 @@ pub fn main() {
     ];
     println!("{}", solution::num_enclaves(grid));
 }
+
+// what went wrong?
+// prev code just skipped checks on all edge cells instead of
+// including them in the check and this is why
+// cases where edge land cells connected to inside land cells
+// were not being properly passed.

@@ -32,12 +32,15 @@ mod solution {
     }
 
     fn dfs(grid: &mut Vec<Vec<i32>>, i: usize, j: usize) {
+        // Check if the current cell is out of bounds or sea
         if i >= grid.len() || j >= grid[0].len() || grid[i][j] == 0 {
             return;
         }
 
+        // Mark the current cell as sea
         grid[i][j] = 0;
 
+        // Check the adjacent cells
         if i > 0 {
             dfs(grid, i - 1, j);
         }

@@ -2,6 +2,7 @@ use std::{rc::Rc, cell::RefCell};
 
 pub fn is_same_tree(p: Option<Rc<RefCell<TreeNode>>> q: Option<Rc<RefCell<TreeNode>>>) -> bool {
     let mut stack = Vec::new();
+    // put the root nodes into the stack
     stack.push((p, q));
     while !stack.is_empty() {
         // first pop from stack and unwrap the tuple
@@ -17,6 +18,8 @@ pub fn is_same_tree(p: Option<Rc<RefCell<TreeNode>>> q: Option<Rc<RefCell<TreeNo
         if p.borrow().val != q.borrow().val {
             return false;
         }
+        // push the left and right nodes into the stack since at this point
+        // we know that the values are the same
         stack.push((p.borrow().left.clone(), q.borrow().left.clone()));
         stack.push((p.borrow().right.clone(), q.borrow().right.clone()));
     }

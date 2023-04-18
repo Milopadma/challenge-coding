@@ -10,7 +10,9 @@ pub fn is_symmetric(root: Option<Rc<RefCell<TreeNode>>>) -> bool {
         match (left, right) {
             (None, None) => true,
             (Some(left), Some(right)) => {
+                // if the values of left and right are equal
                 left.borrow().val == right.borrow().val
+                // and the left.left and right.right are mirror
                     && is_mirror(left.borrow().left.clone(), right.borrow().right.clone())
                     && is_mirror(left.borrow().right.clone(), right.borrow().left.clone())
             }

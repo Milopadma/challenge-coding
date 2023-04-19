@@ -1,23 +1,22 @@
 use std::{cell::RefCell, rc::Rc};
 
 pub fn max_depth(root: Option<Rc<RefCell<TreeNode>>>) -> i32 {
-    // check if the root is empty
+    // check if the root is none
     if root.is_none() {
         return 0;
     }
-    // then traverse tree until reach end, and add to max var
+    // set max and stack to 0 and root in a vector
     let mut max = 0;
-    traverse_tree(root, &mut max)
-}
-
-fn traverse_tree(root: Option<Rc<RefCell<TreeNode>>>, max: &mut i32) -> i32 {
-    while let Some(node) = root {
-        let node = node.borrow();
-        let left = node.left.clone();
-        let right = node.right.clone();
-        max += 1;
-        traverse_tree(left, max);
-        traverse_tree(right, max);
+    let mut stack = vec![(root, 1)];
+    // now iterate over the stack of root
+    while let Some((node, depth)) = stack.pop() {
+        if let Some(node) = node {
+            // if the node is not none, then set max to the max of max and depth
+            max = max.max(depth);
+            // then push the left and right nodes to the stack
+            stack.push((node.borrow().left.clone(), depth + 1));
+            stack.push((node.borrow().right.clone(), depth + 1));
+        }
     }
     max
 }

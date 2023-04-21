@@ -10,13 +10,13 @@ pub fn sorted_list_to_bst(head: Option<Box<ListNode>>) -> Option<Rc<RefCell<Tree
     build_tree(&nums)
 }
 
-fn build_tree(nums: &Vec<i32>) -> Option<Rc<RefCell<_>>> {
+fn build_tree(nums: &Vec<i32>) -> Option<Rc<RefCell<TreeNode>>> {
     if nums.is_empty() {
         return None;
     }
     let mid = nums.len() / 2;
     let mut root = TreeNode::new(nums[mid]);
-    root.left = build_tree(&nums[..mid]);
-    root.right = build_tree(&nums[mid + 1..]);
+    root.left = build_tree(&nums[..mid].to_vec());
+    root.right = build_tree(&nums[mid + 1..].to_vec());
     Some(Rc::new(RefCell::new(root)))
 }

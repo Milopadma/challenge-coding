@@ -10,14 +10,16 @@ pub fn min_depth(root: Option<Rc<RefCell<TreeNode>>>) -> i32 {
         return 0;
     }
 
-    let mut min_depth = 0;
-    let mut queue = VecDeque::new();
-    queue.push_back(root);
+    let mut min_depth = 0; // keep track of the min depth
+    let mut queue = VecDeque::new(); // use a queue to store the nodes
+    queue.push_back(root); // push the root node into the queue
 
+    // loop through the queue untill it is empty
     while !queue.is_empty() {
         min_depth += 1;
         let mut size = queue.len();
 
+        // while the queue is not empty, pop the nodes and check if they have children
         while size > 0 {
             let node = queue.pop_front().unwrap();
             let node = node.unwrap();

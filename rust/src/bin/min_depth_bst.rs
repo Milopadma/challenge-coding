@@ -25,10 +25,12 @@ pub fn min_depth(root: Option<Rc<RefCell<TreeNode>>>) -> i32 {
             let node = node.unwrap();
             let node = node.borrow();
 
+            // if the node has no children, return the min depth
             if node.left.is_none() && node.right.is_none() {
                 return min_depth;
             }
 
+            // if the node has children, push them into the queue
             if node.left.is_some() {
                 queue.push_back(node.left.clone());
             }

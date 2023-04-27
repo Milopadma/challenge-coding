@@ -2,11 +2,12 @@
 pub fn generate(num_rows: i32) -> Vec<Vec<i32>> {
     // creating the pascal triangle vector and returning the rows
     let mut pascal_triangle: Vec<Vec<i32>> = Vec::new();
-    // iterating through the rows
+    // iterating through the rows until the number of rows is met
     for i in 0..num_rows {
         pascal_triangle.push(Vec::new());
         // iterating through the columns
         for j in 0..=i {
+            // if the column is the first or last, then push 1
             if j == 0 || j == i {
                 // if the column is the first or last, then push 1
                 pascal_triangle[i as usize].push(1);

@@ -9,7 +9,6 @@ pub fn generate(num_rows: i32) -> Vec<Vec<i32>> {
         for j in 0..=i {
             // if the column is the first or last, then push 1
             if j == 0 || j == i {
-                // if the column is the first or last, then push 1
                 pascal_triangle[i as usize].push(1);
             } else {
                 // temp variable to store the sum of the two numbers above

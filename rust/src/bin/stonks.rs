@@ -16,6 +16,22 @@ pub fn max_profit(prices: Vec<i32>) -> i32 {
     }
     max_profit
 }
+
+// a better solution with better runtime
+pub fn max_profit_eff(prices: Vec<i32>) -> i32 {
+    let mut min_price = std::i32::MAX;
+    let mut max_profit: i32 = 0;
+
+    for price in prices {
+        if price < min_price {
+            min_price = price;
+        } else if price - min_price > max_profit {
+            max_profit = price - min_price;
+        }
+    }
+    max_profit
+}
+
 pub fn main() {
     let prices = vec![7, 1, 5, 3, 6, 4];
     let max_profit = max_profit(prices);

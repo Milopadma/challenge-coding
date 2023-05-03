@@ -26,6 +26,9 @@ pub fn find_difference(nums1: Vec<i32>, nums2: Vec<i32>) -> Vec<Vec<i32>> {
         }
     }
 
+    answer[0].dedup();
+    answer[1].dedup();
+
     answer
 }
 pub fn main() {

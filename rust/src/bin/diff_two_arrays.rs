@@ -1,5 +1,3 @@
-use std::vec;
-
 // function that takes in two integer arrays and returns
 // the difference between the two arrays
 // by giving the elements that are not common in both arrays

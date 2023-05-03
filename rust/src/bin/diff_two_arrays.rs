@@ -1,3 +1,5 @@
+use std::vec;
+
 // function that takes in two integer arrays and returns
 // the difference between the two arrays
 // by giving the elements that are not common in both arrays
@@ -30,6 +32,25 @@ pub fn find_difference(nums1: Vec<i32>, nums2: Vec<i32>) -> Vec<Vec<i32>> {
     answer[1].dedup();
 
     answer
+}
+
+pub fn better_find_difference(nums1: Vec<i32>, nums2: Vec<i32>) -> Vec<Vec<i32>> {
+    let mut result = vec![vec![], vec![]];
+    let mut set1 = std::collections::HashSet::new();
+    let mut set2 = std::collections::HashSet::new();
+    for n in nums1 {
+        set1.insert(n);
+    }
+    for n in nums2 {
+        set2.insert(n);
+    }
+    for n in set1.difference(&set2) {
+        result[0].push(*n);
+    }
+    for n in set2.difference(&set1) {
+        result[1].push(*n);
+    }
+    result
 }
 pub fn main() {
     let nums1 = vec![1, 2, 3, 4, 5, 6];

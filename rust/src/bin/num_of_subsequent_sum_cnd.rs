@@ -1,9 +1,15 @@
-// Initialize answer = 0 and the length of nums as n. Iterate over the left
-// index left from 0 to n - 1, for each index left: Use binary search to locate
-// the rightmost index right which nums[right] <= target - nums[left]. If left
-// <= right, count the total number of valid subsequences as 2right - left2 ^
-// {\text{right - left}}2 right - left Increment answer by the number of valid
-// subsequences. Return answer once the iteration ends.
+// Two pointers method
+// Initialize answer = 0 and the length of nums as n. Set two pointers left = 0
+// and right = n - 1. Iterate over left while left <= right, for each index
+// left:
+// 1. If nums[left] + nums[right] > target, it means nums[right] is too large
+//    for the right boundary, we shall move it to the left by setting right =
+//    right - 1.
+// 2. Otherwise, right is the rightmost index which nums[right] <= target -
+// nums[left], we can count the total number of valid subsequences as 2right -
+// left2 ^ {\text{right - left}}2 right - left
+// and increment answer by this number.
+// 3. Repeat step 2. Return answer once the iteration ends.
 pub fn num_subseq(nums: Vec<i32>, target: i32) -> i32 {
     let mut ans = 0;
     let n = nums.len();

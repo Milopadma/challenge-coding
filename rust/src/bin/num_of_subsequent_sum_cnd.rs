@@ -1,31 +1,34 @@
+// Initialize answer = 0 and the length of nums as n. Iterate over the left
+// index left from 0 to n - 1, for each index left: Use binary search to locate
+// the rightmost index right which nums[right] <= target - nums[left]. If left
+// <= right, count the total number of valid subsequences as 2right - left2 ^
+// {\text{right - left}}2 right - left Increment answer by the number of valid
+// subsequences. Return answer once the iteration ends.
 pub fn num_subseq(nums: Vec<i32>, target: i32) -> i32 {
-    let mut nums: Vec<i32> = nums;
-    let mut count = 0;
-    let mut i = 0;
-    let mut j = nums.len() - 1;
-    let mod_num = 10_i32.pow(9) + 7;
-    let mut pow = vec![1; nums.len()];
-    // calculate 2^i   
-    for i in 1..nums.len() {
-        pow[i] = (pow[i - 1] * 2) % mod_num;
-    }
+    let mut ans = 0;
+    let n = nums.len();
+    let mut nums = nums;
     nums.sort();
-    // iterate from both ends
-    while i <= j {
-        // if the sum of the two numbers is greater than target, then we need to
-        // decrease the sum by decreasing the larger number
-        if nums[i] + nums[j] > target {
-            j -= 1;
+    let mut left = 0;
+    let mut right = n - 1;
+    if right == 0 {
+        return 0;
+    }
+    let modulo = 1_000_000_007;
+    let mut pow = vec![1; n];
+    for i in 1..n {
+        pow[i] = pow[i - 1] * 2 % modulo;
+    }
+    while left <= right {
+        if nums[left] + nums[right] > target {
+            right -= 1;
         } else {
-            // if the sum of the two numbers is less than target, then we can
-            // choose any number between i and j to pair with j, so we add 2^(j-i)
-            count = (count + pow[j - i]) % mod_num;
-            i += 1;
+            ans = (ans + pow[right - left]) % modulo;
+            left += 1;
         }
     }
-    count
+    ans as i32
 }
-
 pub fn main() {
     let nums = vec![3, 5, 6, 7];
     let target = 9;

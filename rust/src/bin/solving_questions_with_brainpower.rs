@@ -4,7 +4,7 @@
 // skipped
 // - the questions must be checked in order
 pub fn most_points(questions: Vec<Vec<i32>>) -> i64 {
-    fn dfs(questions: &Vec<Vec<i32>>, index: usize, memo: &mut Vec<i32>) -> i32 {
+    fn dfs(questions: &Vec<Vec<i32>>, index: usize, memo: &mut Vec<i64>) -> i64 {
         if index >= questions.len() {
             return 0;
         }
@@ -12,8 +12,8 @@ pub fn most_points(questions: Vec<Vec<i32>>) -> i64 {
             return memo[index];
         }
         let skip = dfs(questions, index + 1, memo);
-        let solve =
-            questions[index][0] + dfs(questions, index + (questions[index][1] as usize) + 1, memo);
+        let solve = questions[index][0] as i64
+            + dfs(questions, index + (questions[index][1] as usize) + 1, memo);
         memo[index] = skip.max(solve);
         memo[index]
     }

@@ -14,6 +14,7 @@
 
 const MOD: i64 = 1_000_000_007;
 pub fn count_good_strings(low: i32, high: i32, zero: i32, one: i32) -> i32 {
+    // dynamic programming; reduce the subproblem recursively until it reaches the base case
     fn dfs(end: usize, zero: usize, one: usize, dp: &mut Vec<i64>) -> i64 {
         if dp[end] != -1 {
             return dp[end];
@@ -30,6 +31,7 @@ pub fn count_good_strings(low: i32, high: i32, zero: i32, one: i32) -> i32 {
         dp[end] = ans;
         ans
     }
+    //
     let mut dp = vec![-1; 1 + high as usize];
     dp[0] = 1;
     let mut ans = 0;

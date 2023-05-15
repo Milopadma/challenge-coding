@@ -29,7 +29,7 @@ pub fn count_good_strings(low: i32, high: i32, zero: i32, one: i32) -> i32 {
             ans %= MOD;
         }
         dp[end] = ans;
-        ans
+        ansk
     }
     //
     let mut dp = vec![-1; 1 + high as usize];

@@ -4,6 +4,7 @@
 // skipped
 // - the questions must be checked in order
 pub fn most_points(questions: Vec<Vec<i32>>) -> i64 {
+    // using recursive dfs to find the maximum number of points
     fn dfs(questions: &Vec<Vec<i32>>, index: usize, memo: &mut Vec<i64>) -> i64 {
         if index >= questions.len() {
             return 0;
@@ -38,3 +39,25 @@ pub fn main() {
 //     }
 // }
 // points as i64
+
+// 27ms runtime solution
+use std::convert::TryInto;
+impl Solution {
+    pub fn most_points(questions: Vec<Vec<i32>>) -> i64 {
+        // dp[i] is number of points we can get from suffix with len = i.
+        let mut dp = vec![0i64; questions.len() + 1];
+        for (q, suff_len) in questions.iter().rev().zip(1..) {
+            assert!(q.len() >= 2);
+            let points = q[0];
+            let brain_power: usize = q[1].try_into().unwrap();
+            let suff_len_if_use = questions
+                .get(questions.len() - suff_len..)
+                .and_then(|s| s.get(1..))
+                .and_then(|s| s.get(brain_power..))
+                .map(|x| x.len())
+                .unwrap_or(0);
+            dp[suff_len] = std::cmp::max(dp[suff_len - 1], dp[suff_len_if_use] + i64::from(points));
+        }
+        dp[questions.len()]
+    }
+}

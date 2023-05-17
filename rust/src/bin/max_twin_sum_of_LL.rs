@@ -14,19 +14,25 @@ impl ListNode {
 // twin nodes in this case refers to nodes
 // where ith node is a twin of (n-1-i)th node
 pub fn pair_sum(head: Option<Box<ListNode>>) -> i32 {
+    // using stack
+    let mut stack = Vec::new();
     let mut head = head;
     let mut max_sum = 0;
-    let mut current = &mut head;
-    while let Some(node) = current {
-        let mut current2 = node.next.as_mut();
-        while let Some(node2) = current2 {
-            let sum = node.val + node2.val;
-            if sum > max_sum {
-                max_sum = sum;
-            }
-            current2 = node2.next.as_mut();
+    while let Some(node) = head {
+        stack.push(node.val);
+        head = node.next;
+    }
+    // iterate through the stack and find the max sum
+    // between the twin nodes
+    let mut i = 0;
+    let mut j = stack.len() - 1;
+    while i < j {
+        let sum = stack[i] + stack[j];
+        if sum > max_sum {
+            max_sum = sum;
         }
-        current = node.next.as_mut();
+        i += 1;
+        j -= 1;
     }
     max_sum
 }

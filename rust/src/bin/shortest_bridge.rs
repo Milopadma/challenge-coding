@@ -1,70 +1,59 @@
 // fn that takes matrix grid and finds the smallest number of 0's to change to
 // 1's to connect the two islands together
 pub fn shortest_bridge(mut grid: Vec<Vec<i32>>) -> i32 {
-    // Helper function to perform DFS and mark the first island with -1
-    fn dfs(grid: &mut Vec<Vec<i32>>, i: usize, j: usize) {
-        if i < grid.len() && j < grid[0].len() && grid[i][j] == 1 {
-            grid[i][j] = -1;
-            dfs(grid, i + 1, j);
-            dfs(grid, i.saturating_sub(1), j);
-            dfs(grid, i, j + 1);
-            dfs(grid, i, j.saturating_sub(1));
-        }
-    }
+    let n = grid.len();
+    let mut queue = Vec::new();
+    let offsets = [(0, 1), (0, -1), (1, 0), (-1, 0)];
 
-    // Find and mark the first island
-    let mut found_island = false;
-    for i in 0..grid.len() {
-        for j in 0..grid[0].len() {
+    // Find the first island and mark it with 2s
+    'outer: for i in 0..n {
+        for j in 0..n {
             if grid[i][j] == 1 {
-                dfs(&mut grid, i, j);
-                found_island = true;
-                break;
+                dfs(&mut grid, i, j, &mut queue);
+                break 'outer;
             }
-        }
-        if found_island {
-            break;
         }
     }
 
-    // Helper function to perform BFS and find the shortest bridge
-    fn bfs(grid: &mut Vec<Vec<i32>>, i: usize, j: usize) -> Option<usize> {
-        let mut queue = std::collections::VecDeque::new();
-        queue.push_back((i, j, 0));
-
-        while let Some((i, j, steps)) = queue.pop_front() {
-            if i < grid.len() && j < grid[0].len() {
-                match grid[i][j] {
-                    0 => {
-                        grid[i][j] = -2; // Mark as visited
-                        queue.push_back((i + 1, j, steps + 1));
-                        queue.push_back((i.saturating_sub(1), j, steps + 1));
-                        queue.push_back((i, j + 1, steps + 1));
-                        queue.push_back((i, j.saturating_sub(1), steps + 1));
+    // BFS to expand the island until it reaches the second island
+    let mut distance = 0;
+    while !queue.is_empty() {
+        distance += 1;
+        let len = queue.len();
+        for _ in 0..len {
+            let (x, y) = queue.remove(0);
+            for (dx, dy) in &offsets {
+                let nx = x as i32 + dx;
+                let ny = y as i32 + dy;
+                if nx >= 0 && nx < n as i32 && ny >= 0 && ny < n as i32 {
+                    if grid[nx as usize][ny as usize] == 1 {
+                        return distance - 1;
+                    } else if grid[nx as usize][ny as usize] == 0 {
+                        grid[nx as usize][ny as usize] = 2;
+                        queue.push((nx as usize, ny as usize));
                     }
-                    1 => return Some(steps),
-                    -1 => (),
-                    _ => (),
-                }
-            }
-        }
-
-        None
-    }
-
-    // Start BFS from each cell of the first island and find the shortest bridge
-    let mut min_bridge = std::i32::MAX;
-    for i in 0..grid.len() {
-        for j in 0..grid[0].len() {
-            if grid[i][j] == -1 {
-                if let Some(bridge) = bfs(&mut grid, i, j) {
-                    min_bridge = min_bridge.min(bridge as i32);
                 }
             }
         }
     }
 
-    min_bridge
+    -1
+}
+
+fn dfs(grid: &mut Vec<Vec<i32>>, x: usize, y: usize, queue: &mut Vec<(usize, usize)>) {
+    if x >= grid.len() || y >= grid.len() || grid[x][y] != 1 {
+        return;
+    }
+    grid[x][y] = 2;
+    queue.push((x, y));
+    dfs(grid, x + 1, y, queue);
+    dfs(grid, x, y + 1, queue);
+    if x > 0 {
+        dfs(grid, x - 1, y, queue);
+    }
+    if y > 0 {
+        dfs(grid, x, y - 1, queue);
+    }
 }
 
 pub fn main() {
